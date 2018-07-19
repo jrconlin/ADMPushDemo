@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.amazon.device.messaging.ADM;
 import org.mozilla.services.admpushdemo.R;
 
-public class ADMPushDemADMPushDemndooApp extends Activity{
+public class ADMPushDemoApp extends Activity{
     /** Catches intents sent from the onMessage() callback to update the UI. */
     private BroadcastReceiver msgReceiver;
 
