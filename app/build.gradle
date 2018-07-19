@@ -2,13 +2,11 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 18
     buildToolsVersion "27.0.3"
-
     defaultConfig {
         applicationId "org.mozilla.services.admpushdemo"
         minSdkVersion 11
-        targetSdkVersion 18
+        targetSdkVersion 22
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -17,6 +15,8 @@ android {
     }
     /* IMPORTANT: Add this to bring in the Asset directory */
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+    productFlavors {
+    }
 }
 
 /* Optional: Add this to check if the api_key file is present */

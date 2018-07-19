@@ -43,6 +43,28 @@ public class ADMMessageHandler extends ADMMessageHandlerBase {
         super.onCreate();
     }
 
+    /** Process the incoming message
+     *
+     * The message is contained inside of the intent, like most messages.
+     * The content of the message keyset will be all of the content of the
+     * "data" element of the server post, plus an additional "adm_message_md5",
+     * which will be the MD5 signature of the content of the message.
+     *
+     * e.g. if the server data contains {
+     *     "body": ...,
+     *     "con": ...,
+     *     "enc": ...
+     * }
+     *
+     * the message will contain {
+     *     "body": ...,
+     *     "con": ...,
+     *     "enc": ...,
+     *     "adm_message_md5": ...
+     * }
+     *
+     * @param intent
+     */
     protected void onMessage(final Intent intent) {
         Log.i("onMessage", "received a message");
         /* String to access message field from data JSON. */
@@ -51,6 +73,7 @@ public class ADMMessageHandler extends ADMMessageHandlerBase {
         final String intentAction = getString(R.string.intent_msg_action);
         final Bundle extras = intent.getExtras();
 
+        /* This is optional, but checks the content of the message to ensure completeness */
         verifyMD5Checksum(extras);
 
         /* Extract message from the extras in the intent. */
@@ -58,6 +81,11 @@ public class ADMMessageHandler extends ADMMessageHandlerBase {
         for(String key : extras.keySet()){
             msg += key + "=" + extras.getString(key) + "\n";
         }
+        Log.i("onMessage",  "Message content: " + msg);
+
+        /* do whatever extra message handling is required. For now, we'll just pass this along
+        to the FireOS notification screen.
+         */
         if(inBackground){
             postNotification(msg);
         }
@@ -77,15 +105,20 @@ public class ADMMessageHandler extends ADMMessageHandlerBase {
     }
 
     /**
-     * This method posts a notification to notification manager.
+     * This method posts a message to the Fire OS notification manager.
+     *
      * @param msg Message that is included in the ADM message.
      */
     private void postNotification(final String msg){
         final Context context = getApplicationContext();
-        final NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        final NotificationManager mNotificationManager = (NotificationManager) getSystemService(
+                Context.NOTIFICATION_SERVICE);
         final Builder notificationBuilder = new Notification.Builder(context);
         final Intent notificationIntent = new Intent(context, ADMPushDemoApp.class);
-        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                0,
+                notificationIntent,
+                Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL);
         final Notification notification = notificationBuilder.setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle("Message(s) Received!")
                 .setContentIntent(pendingIntent)

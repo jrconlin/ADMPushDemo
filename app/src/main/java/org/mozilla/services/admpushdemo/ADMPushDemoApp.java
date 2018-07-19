@@ -26,6 +26,10 @@ public class ADMPushDemoApp extends Activity{
     /** Catches intents sent from the onMessage() callback to update the UI. */
     private BroadcastReceiver msgReceiver;
 
+    /** at application creation, register to receive messages
+     *
+     * @param savedInstanceState
+     */
     public void onCreate(final Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -53,11 +57,16 @@ public class ADMPushDemoApp extends Activity{
         }
     }
 
+    /** On application resumption, fetch any pending messages
+     *
+     */
     public void onResume(){
         final String msgKey = getString(R.string.json_data_msg_key);
         final String intentAction = getString(R.string.intent_msg_action);
         final String msgCategory = getString(R.string.intent_msg_category);
         final TextView tView = (TextView)findViewById(R.id.textMsgServer);
+
+        // Get the missed messages from the handler
         int numberOfMissedMessages = ADMMessageHandler.getNumberOfMissedMessages();
         ADMMessageHandler.inBackground = false;
         if(numberOfMissedMessages > 0){
@@ -81,7 +90,6 @@ public class ADMPushDemoApp extends Activity{
      * Create a {@link BroadcastReceiver} for listening to messages from ADM.
      *
      * @param msgKey String to access message field from data JSON.
-     * @param timeKey String to access timeStamp field from data JSON.
      * @return {@link BroadcastReceiver} for listening to messages from ADM.
      */
     private BroadcastReceiver createBroadcastReceiver(final String msgKey) {
@@ -111,12 +119,20 @@ public class ADMPushDemoApp extends Activity{
         super.onPause();
     }
 
+    /** Register to receive messages.
+     *
+     * It appears that the registrationID doesn't change often. It may be worth storing a
+     * hash derived from this ID to determine if it has changed. The ID is very long.
+     *
+     * You'll need to send this ID to the WebPush registration endpoint. 
+     */
     private void register(){
         final ADM adm = new ADM(this);
         if (adm.isSupported()){
             if(adm.getRegistrationId() == null){
                 adm.startRegister();
             }
+            Log.i("register", "Registration ID:" + adm.getRegistrationId());
         }
     }
 }

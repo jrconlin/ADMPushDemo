@@ -32,6 +32,12 @@ see: https://developer.amazon.com/docs/adm/obtain-credentials.html
     </table>
     
 0) Copy the API Key into `${PROJECT_DIR}/src/main/assets/api_key.txt`
-
 ***NOTE***: You ***will not*** be able to test this application in the emulator. The provided
 jar file contains only stub references. The actual jar file is only available on amazon devices.
+
+NOTE:: It is possible that the CERT.RSA key used to sign the app may change slightly. If 
+you get an error like "INVALID_SENDER" yet the `assets/api_key.txt` is included, check that
+the CERT.RSA SHA256 key matches what you've registered with Amazon. A new key may need to be
+generated. 
+
+Remember, your app key is stored usually stored in the *.keystore file (if using Android Studio) 
