@@ -1,3 +1,14 @@
+# Super minimal python script to send a message to the ADM recipient.
+#
+# You'll need:
+#
+# creds : this is a JSON file that contains info from the amazon
+#         developer console (NOTE: Not the AWS console.)
+#
+# {"client_id": <the app client id>, "client_secret": <app client secret>}
+#
+# reg_id : the ADM().getRegistrationId() value.
+#
 import requests
 import json
 

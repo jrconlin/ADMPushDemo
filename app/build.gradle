@@ -13,6 +13,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
     /* IMPORTANT: Add this to bring in the Asset directory */
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
     productFlavors {

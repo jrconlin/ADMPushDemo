@@ -45,6 +45,7 @@ public class ADMMessageHandler extends ADMMessageHandlerBase {
 
     /** Process the incoming message
      *
+     * WEBPUSH:
      * The message is contained inside of the intent, like most messages.
      * The content of the message keyset will be all of the content of the
      * "data" element of the server post, plus an additional "adm_message_md5",

@@ -37,7 +37,7 @@ public class ADMPushDemoApp extends Activity{
         final TextView tView = (TextView)findViewById(R.id.textMsgServer);
         tView.setMovementMethod(new ScrollingMovementMethod());
         startService(new Intent(this, ADMMessageHandler.class));
-        /* Register app with ADM. */
+        /* WEBPUSH: Register app with ADM. */
         register();
     }
 
@@ -121,10 +121,11 @@ public class ADMPushDemoApp extends Activity{
 
     /** Register to receive messages.
      *
-     * It appears that the registrationID doesn't change often. It may be worth storing a
-     * hash derived from this ID to determine if it has changed. The ID is very long.
+     * WEBPUSH: It appears that the registrationID doesn't change often. It may be
+     * worth storing a hash derived from this ID to determine if it has changed.
+     * The raw ID is very 1500+ characters long.
      *
-     * You'll need to send this ID to the WebPush registration endpoint. 
+     * You'll need to send this ID to the WebPush registration endpoint.
      */
     private void register(){
         final ADM adm = new ADM(this);

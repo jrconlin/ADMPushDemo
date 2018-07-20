@@ -28,6 +28,11 @@ import java.util.TreeMap;
 import android.util.Base64;
 
 /**
+ * WEBPUSH NOTE: this is kinda/sorta optional, since the push server will
+ * probably not be calculating the MD5 for the submission. It may be useful
+ * to see if there's missing or incomplete data, but since the data won't
+ * decrypt if it's broken, it's redundant.
+ *
  * This class provides a method to calculate the checksum on a
  * collection of key-value pairs by the algorithm defined in the
  * ADM documentation.
